@@ -19,6 +19,7 @@ This application provides a comprehensive cheque management system with features
 - **Status Badges**: Color-coded status indicators for quick visual recognition
 
 ### AI Chatbot (Optional)
+- **Dedicated Chat Page**: Full-screen chatbot interface at `/chat` with spacious conversation layout
 - **Natural Language Queries**: Ask questions in plain English like:
   - "Give me all cheques due by 21st November"
   - "What's the total amount of upcoming cheques?"
@@ -28,6 +29,7 @@ This application provides a comprehensive cheque management system with features
   - Currency formatting with commas and decimals
   - Bullet-pointed lists
   - Summaries and totals
+- **Seamless Navigation**: Easy navigation between cheques page and chat page
 - **Graceful Degradation**: System works fully without Gemini API key; chatbot simply becomes unavailable
 
 ## Tech Stack
@@ -140,11 +142,12 @@ The application will be available at `http://localhost:5000`
 ├── client/                    # Frontend React application
 │   ├── src/
 │   │   ├── components/       # Reusable UI components
-│   │   │   ├── chatbot.tsx   # AI chatbot component
+│   │   │   ├── chatbot.tsx   # Legacy chatbot component (deprecated)
 │   │   │   ├── create-cheque-dialog.tsx
 │   │   │   ├── date-range-picker.tsx
 │   │   │   └── ui/           # Shadcn components
 │   │   ├── pages/            # Page components
+│   │   │   ├── chat.tsx      # Dedicated AI chatbot page
 │   │   │   └── cheques.tsx   # Main cheques page
 │   │   └── lib/              # Utilities and configurations
 ├── server/                    # Backend Express application
@@ -177,6 +180,10 @@ See `design_guidelines.md` for detailed design specifications.
 
 ## Recent Changes
 
+- **2025-11-07**: Created dedicated full-screen chat page at /chat with improved UX and spacious layout
+- **2025-11-07**: Added seamless navigation between cheques page and chat page
+- **2025-11-07**: Removed floating chatbot button in favor of dedicated page
+- **2025-11-07**: Fixed TypeScript error with amount field type handling (string/number)
 - **2025-11-07**: Added Gemini AI chatbot for natural language queries
 - **2025-11-07**: Fixed decimal amount handling in database schema
 - **2025-11-07**: Implemented complete filtering system with date ranges
