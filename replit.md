@@ -32,6 +32,14 @@ This application provides a comprehensive cheque management system with features
 - **Seamless Navigation**: Easy navigation between cheques page and chat page
 - **Graceful Degradation**: System works fully without Gemini API key; chatbot simply becomes unavailable
 
+### WhatsApp Alerts (Optional)
+- **Automated Notifications**: Receive WhatsApp alerts when new cheques are created
+- **Rich Formatting**: Messages include all cheque details (number, payee, amount, dates, status)
+- **Indian Locale**: Currency formatted as INR, dates in Indian format
+- **Configurable**: Recipient phone number set via environment variable
+- **Non-blocking**: Alerts sent asynchronously without delaying cheque creation
+- **Graceful Degradation**: System works fully without Twilio credentials; alerts simply skip
+
 ## Tech Stack
 
 ### Frontend
@@ -48,6 +56,7 @@ This application provides a comprehensive cheque management system with features
 - **PostgreSQL** database (Neon-backed)
 - **Drizzle ORM** for database management
 - **Google Gemini AI** (2.5 Flash) for chatbot
+- **Twilio** for WhatsApp notifications
 
 ## Database Schema
 
@@ -121,6 +130,15 @@ Query cheques using natural language (requires GEMINI_API_KEY).
   - Get one free at https://ai.google.dev/
   - System works without this; chatbot simply becomes unavailable
 
+### Optional (for WhatsApp Alerts)
+- `TWILIO_ACCOUNT_SID`: Twilio account SID
+- `TWILIO_AUTH_TOKEN`: Twilio authentication token
+- `TWILIO_WHATSAPP_NUMBER`: Twilio WhatsApp sender number (format: `whatsapp:+14155238886`)
+- `TWILIO_WHATSAPP_RECIPIENT`: Recipient phone number (formats accepted: `whatsapp:+919380060740` or `+919380060740`)
+  - Get credentials from https://www.twilio.com/console
+  - Use Twilio WhatsApp Sandbox for testing
+  - System works without these; alerts simply skip gracefully
+
 ## Setup & Development
 
 ### Database Migrations
@@ -153,6 +171,7 @@ The application will be available at `http://localhost:5000`
 ├── server/                    # Backend Express application
 │   ├── db.ts                 # Database connection
 │   ├── gemini.ts             # Gemini AI integration
+│   ├── whatsapp.ts           # Twilio WhatsApp integration
 │   ├── routes.ts             # API route handlers
 │   └── storage.ts            # Data access layer
 └── shared/                    # Shared TypeScript types
@@ -180,6 +199,12 @@ See `design_guidelines.md` for detailed design specifications.
 
 ## Recent Changes
 
+- **2025-11-07**: Implemented WhatsApp alert system with Twilio integration
+  - Added configurable recipient via TWILIO_WHATSAPP_RECIPIENT environment variable
+  - Messages formatted with Indian locale (INR currency, Indian date format)
+  - Smart handling of phone number formats (with/without whatsapp: prefix)
+  - Non-blocking async alerts that don't delay cheque creation
+  - Graceful degradation when Twilio credentials not configured
 - **2025-11-07**: Created dedicated full-screen chat page at /chat with improved UX and spacious layout
 - **2025-11-07**: Added seamless navigation between cheques page and chat page
 - **2025-11-07**: Removed floating chatbot button in favor of dedicated page
