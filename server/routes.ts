@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertChequeSchema } from "@shared/schema";
 import { queryCheques } from "./gemini";
+import { sendChequeAlert } from "./whatsapp";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -31,6 +32,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = insertChequeSchema.parse(req.body);
       const cheque = await storage.createCheque(validatedData);
+      
+      // Send WhatsApp alert (non-blocking, don't wait for it)
+      sendChequeAlert(cheque).catch((error) => {
+        console.error("WhatsApp alert failed (non-critical):", error);
+      });
+      
       res.status(201).json(cheque);
     } catch (error) {
       console.error("Error creating cheque:", error);
