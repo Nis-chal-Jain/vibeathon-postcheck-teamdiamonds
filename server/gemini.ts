@@ -40,26 +40,25 @@ Guidelines:
 - If no cheques match, suggest alternatives politely`;
 
     const chequesSummary = summarizeChequesForPrompt(chequesData);
+    const userPrompt = `Here is the current cheque data:\n\n${chequesSummary}\n\nUser question: ${userQuery}`;
 
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       config: {
         systemInstruction: systemInstruction,
       },
-      contents: [
-        {
-          role: "user",
-          parts: [
-            {
-              text: `Here is the current cheque data:\n\n${chequesSummary}\n\nUser question: ${userQuery}`,
-            },
-          ],
-        },
-      ],
+      contents: userPrompt,
     });
 
-    const textResponse = response.response?.text();
-    return textResponse || "I couldn't generate a response. Please try again.";
+    // Gemini SDK returns text via the .text property (not .response.text())
+    const textResponse = response.text;
+    
+    if (!textResponse || textResponse.trim() === "") {
+      console.warn("Empty response from Gemini");
+      return "I received an empty response. Please try again.";
+    }
+    
+    return textResponse;
   } catch (error) {
     console.error("Gemini API error:", error);
     throw new Error(`Failed to query cheques: ${error}`);

@@ -44,14 +44,15 @@ export function Chatbot({ onClose }: ChatbotProps) {
 
   const queryMutation = useMutation({
     mutationFn: async (query: string) => {
-      return await apiRequest("POST", "/api/chat", { query });
+      const response = await apiRequest("POST", "/api/chat", { query });
+      return await response.json();
     },
     onSuccess: (data) => {
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: data.response,
+          content: data.response || "No response received",
           timestampStr: new Date().toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
