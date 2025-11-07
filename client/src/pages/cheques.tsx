@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { Plus, Filter } from "lucide-react";
+import { Plus, Filter, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -15,10 +15,12 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CreateChequeDialog } from "@/components/create-cheque-dialog";
 import { DateRangePicker } from "@/components/date-range-picker";
+import { Chatbot } from "@/components/chatbot";
 import type { Cheque } from "@shared/schema";
 
 export default function ChequesPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [issueDateRange, setIssueDateRange] = useState<{ from?: Date; to?: Date }>({});
   const [dueDateRange, setDueDateRange] = useState<{ from?: Date; to?: Date }>({});
@@ -278,6 +280,19 @@ export default function ChequesPage() {
         open={isCreateDialogOpen}
         onOpenChange={setIsCreateDialogOpen}
       />
+
+      {!isChatbotOpen && (
+        <Button
+          onClick={() => setIsChatbotOpen(true)}
+          className="fixed bottom-4 right-4 rounded-full h-14 w-14 shadow-lg"
+          size="icon"
+          data-testid="button-open-chat"
+        >
+          <MessageSquare className="h-6 w-6" />
+        </Button>
+      )}
+
+      {isChatbotOpen && <Chatbot onClose={() => setIsChatbotOpen(false)} />}
     </div>
   );
 }

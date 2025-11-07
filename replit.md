@@ -1,103 +1,190 @@
 # Cheque Management System
 
+A full-stack web application for managing and tracking cheques with AI-powered natural language querying.
+
 ## Overview
 
-A web-based financial management application for tracking and managing cheques. The system provides filtering capabilities by status, issue date, and due date, along with creation and organization tools for cheque records. Built with a modern React frontend and Express backend, utilizing PostgreSQL for data persistence.
+This application provides a comprehensive cheque management system with features for creating, filtering, and querying cheques. It includes an intelligent AI chatbot powered by Google's Gemini API that allows users to query their cheque data using natural language.
+
+## Features
+
+### Core Functionality
+- **Create Cheques**: Add new cheques with all required details (cheque number, payee, dates, amount, status)
+- **Filter & Search**: Filter cheques by:
+  - Status (past, today, upcoming, cancelled)
+  - Issue date range
+  - Due date range
+  - Multiple filters can be combined
+- **Responsive Table View**: Display all cheques with proper formatting and visual indicators
+- **Status Badges**: Color-coded status indicators for quick visual recognition
+
+### AI Chatbot (Optional)
+- **Natural Language Queries**: Ask questions in plain English like:
+  - "Give me all cheques due by 21st November"
+  - "What's the total amount of upcoming cheques?"
+  - "List all cheques for John Smith"
+- **Intelligent Responses**: Get formatted, context-aware answers with:
+  - Proper date formatting
+  - Currency formatting with commas and decimals
+  - Bullet-pointed lists
+  - Summaries and totals
+- **Graceful Degradation**: System works fully without Gemini API key; chatbot simply becomes unavailable
+
+## Tech Stack
+
+### Frontend
+- **React** with TypeScript
+- **Wouter** for routing
+- **TanStack Query** for data fetching and caching
+- **Shadcn UI** component library
+- **Tailwind CSS** for styling
+- **date-fns** for date formatting
+- **React Hook Form** with Zod validation
+
+### Backend
+- **Express.js** with TypeScript
+- **PostgreSQL** database (Neon-backed)
+- **Drizzle ORM** for database management
+- **Google Gemini AI** (2.5 Flash) for chatbot
+
+## Database Schema
+
+### Cheques Table
+- `chequeId`: Serial (auto-increment primary key)
+- `userId`: Varchar(255) - User identifier
+- `chequeNumber`: Integer - Physical cheque number
+- `toPayee`: Varchar(255) - Payee name
+- `issuedDate`: Date - Issue date
+- `dueDate`: Date - Due date
+- `amount`: Numeric(12,2) - Amount with decimal precision
+- `status`: Enum - One of: 'past', 'today', 'upcoming', 'cancelled'
+
+## API Endpoints
+
+### GET /api/cheques
+Query cheques with optional filters.
+
+**Query Parameters** (all optional):
+- `status`: Filter by status
+- `issueStart`: Issue date range start (YYYY-MM-DD)
+- `issueEnd`: Issue date range end (YYYY-MM-DD)
+- `dueStart`: Due date range start (YYYY-MM-DD)
+- `dueEnd`: Due date range end (YYYY-MM-DD)
+
+**Response**: Array of cheque objects
+
+### POST /api/cheques
+Create a new cheque.
+
+**Request Body**:
+```json
+{
+  "userId": "string",
+  "chequeNumber": number,
+  "toPayee": "string",
+  "issuedDate": "YYYY-MM-DD",
+  "dueDate": "YYYY-MM-DD",
+  "amount": number,
+  "status": "past" | "today" | "upcoming" | "cancelled"
+}
+```
+
+**Response**: Created cheque object
+
+### POST /api/chat
+Query cheques using natural language (requires GEMINI_API_KEY).
+
+**Request Body**:
+```json
+{
+  "query": "string"
+}
+```
+
+**Response**:
+```json
+{
+  "response": "string"
+}
+```
+
+## Environment Variables
+
+### Required for Core Functionality
+- `DATABASE_URL`: PostgreSQL connection string (auto-configured by Replit)
+- `SESSION_SECRET`: Session encryption secret (auto-configured)
+
+### Optional (for Chatbot)
+- `GEMINI_API_KEY`: Google Gemini API key
+  - Get one free at https://ai.google.dev/
+  - System works without this; chatbot simply becomes unavailable
+
+## Setup & Development
+
+### Database Migrations
+Run database schema updates:
+```bash
+npm run db:push
+```
+
+### Running the Application
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:5000`
+
+## Project Structure
+
+```
+├── client/                    # Frontend React application
+│   ├── src/
+│   │   ├── components/       # Reusable UI components
+│   │   │   ├── chatbot.tsx   # AI chatbot component
+│   │   │   ├── create-cheque-dialog.tsx
+│   │   │   ├── date-range-picker.tsx
+│   │   │   └── ui/           # Shadcn components
+│   │   ├── pages/            # Page components
+│   │   │   └── cheques.tsx   # Main cheques page
+│   │   └── lib/              # Utilities and configurations
+├── server/                    # Backend Express application
+│   ├── db.ts                 # Database connection
+│   ├── gemini.ts             # Gemini AI integration
+│   ├── routes.ts             # API route handlers
+│   └── storage.ts            # Data access layer
+└── shared/                    # Shared TypeScript types
+    └── schema.ts             # Database schema & Zod validators
+```
+
+## Design Guidelines
+
+The application follows a modern, clean design system inspired by Linear/Notion:
+- **Typography**: Inter font family for clean, professional text
+- **Colors**: Carefully selected semantic color tokens with dark mode support
+- **Spacing**: Consistent spacing system (4px, 8px, 16px, 24px)
+- **Components**: Shadcn UI components with custom styling
+- **Interactions**: Subtle hover states and smooth transitions
+
+See `design_guidelines.md` for detailed design specifications.
+
+## Security & Best Practices
+
+- **Data Summarization**: Chatbot receives summarized data, not raw JSON, to prevent data leakage
+- **Error Handling**: Comprehensive error handling with user-friendly messages
+- **Input Validation**: Zod schemas validate all inputs
+- **Environment Validation**: Graceful degradation when optional features are unavailable
+- **Type Safety**: Full TypeScript coverage for type safety
+
+## Recent Changes
+
+- **2025-11-07**: Added Gemini AI chatbot for natural language queries
+- **2025-11-07**: Fixed decimal amount handling in database schema
+- **2025-11-07**: Implemented complete filtering system with date ranges
+- **2025-11-07**: Created initial cheque management system with CRUD operations
 
 ## User Preferences
 
-Preferred communication style: Simple, everyday language.
-
-## System Architecture
-
-### Frontend Architecture
-
-**Framework**: React with TypeScript, bundled via Vite
-
-**UI Component System**: shadcn/ui (New York style) with Radix UI primitives
-- Custom design system inspired by Linear/Notion aesthetics
-- Tailwind CSS for styling with custom color variables and spacing primitives
-- Component-based architecture with reusable UI elements (buttons, cards, dialogs, form controls)
-
-**State Management**: 
-- TanStack Query (React Query) for server state management
-- React hooks for local component state
-- Centralized query client configuration with custom fetch wrapper
-
-**Routing**: Wouter for client-side routing
-
-**Form Handling**: React Hook Form with Zod validation resolvers
-
-**Key Design Decisions**:
-- Typography uses Inter font family via Google Fonts CDN
-- Spacing system based on Tailwind units (2, 4, 6, 8, 12)
-- Clean, minimal interface with subtle borders and hover states
-- Mobile-responsive design with breakpoint at 768px
-
-### Backend Architecture
-
-**Framework**: Express.js with TypeScript
-
-**API Design**: RESTful API endpoints
-- `GET /api/cheques` - Query cheques with optional filters (status, date ranges)
-- `POST /api/cheques` - Create new cheque records
-
-**Validation**: Zod schemas for runtime type checking and validation
-
-**Request Logging**: Custom middleware that logs API requests with duration and response data
-
-**Development Server**: Hot module replacement via Vite middleware in development mode
-
-**Key Design Decisions**:
-- Raw body capture for request verification
-- Centralized route registration pattern
-- JSON response format for all API endpoints
-- Error handling with appropriate HTTP status codes (400 for validation, 500 for server errors)
-
-### Data Storage
-
-**Database**: PostgreSQL (via Neon serverless driver)
-
-**ORM**: Drizzle ORM
-- Type-safe database queries
-- Schema-first approach with TypeScript inference
-- Migration management via drizzle-kit
-
-**Schema Design**:
-- `cheques` table with fields: chequeId (serial PK), userId, chequeNumber, toPayee, issuedDate, dueDate, amount (numeric 12,2), status (enum)
-- `users` table with fields: id (UUID), username, password
-- Cheque status enum: "past", "today", "upcoming", "cancelled"
-
-**Key Design Decisions**:
-- WebSocket-based connection pooling for serverless compatibility
-- Shared schema definitions between client and server
-- Zod schemas derived from Drizzle tables for validation consistency
-- Database credentials managed via environment variables
-
-### External Dependencies
-
-**Database Service**: Neon Postgres (serverless)
-- Connection via `@neondatabase/serverless` package
-- WebSocket-based pooling for serverless environments
-
-**UI Component Libraries**:
-- Radix UI primitives (accordion, dialog, dropdown, select, toast, etc.)
-- date-fns for date formatting and manipulation
-- Embla Carousel for carousel functionality
-- class-variance-authority and clsx for conditional styling
-
-**Development Tools**:
-- Replit-specific plugins (runtime error modal, cartographer, dev banner)
-- ESBuild for production bundling
-- PostCSS with Tailwind CSS and Autoprefixer
-
-**Third-Party Integrations**:
-- Google Fonts CDN for Inter font family
-- No external authentication services (credentials stored in database)
-- No payment processing or external API integrations
-
-**Key Design Decisions**:
-- Monorepo structure with shared code between client and server
-- Path aliases for cleaner imports (@/, @shared/, @assets/)
-- Type safety enforced across the stack with TypeScript
-- Environment-based configuration (development vs production builds)
+- Clean, professional UI design
+- Natural language interaction preferred for queries
+- Visual indicators for status (color-coded badges)
+- Responsive design for all screen sizes

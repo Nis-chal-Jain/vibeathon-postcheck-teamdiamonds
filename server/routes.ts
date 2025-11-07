@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertChequeSchema } from "@shared/schema";
+import { queryCheques } from "./gemini";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -38,6 +39,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } else {
         res.status(500).json({ error: "Failed to create cheque" });
       }
+    }
+  });
+
+  // POST /api/chat - AI chatbot for querying cheques
+  app.post("/api/chat", async (req, res) => {
+    try {
+      const { query } = req.body;
+      
+      if (!query || typeof query !== "string") {
+        return res.status(400).json({ error: "Query is required" });
+      }
+
+      const allCheques = await storage.getCheques();
+      const response = await queryCheques(query, allCheques);
+      
+      res.json({ response });
+    } catch (error: any) {
+      console.error("Error processing chat query:", error);
+      if (error.message?.includes("not available") || error.message?.includes("not configured")) {
+        return res.status(503).json({ 
+          error: "Chatbot service is currently unavailable. Please contact the administrator to configure GEMINI_API_KEY." 
+        });
+      }
+      res.status(500).json({ error: "Failed to process your query. Please try again." });
     }
   });
 
