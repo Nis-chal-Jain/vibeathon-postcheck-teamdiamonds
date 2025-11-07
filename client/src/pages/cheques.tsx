@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { Plus, Filter, MessageSquare } from "lucide-react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -15,12 +16,10 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CreateChequeDialog } from "@/components/create-cheque-dialog";
 import { DateRangePicker } from "@/components/date-range-picker";
-import { Chatbot } from "@/components/chatbot";
 import type { Cheque } from "@shared/schema";
 
 export default function ChequesPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [issueDateRange, setIssueDateRange] = useState<{ from?: Date; to?: Date }>({});
   const [dueDateRange, setDueDateRange] = useState<{ from?: Date; to?: Date }>({});
@@ -69,11 +68,12 @@ export default function ChequesPage() {
     }
   };
 
-  const formatCurrency = (amount: number) => {
+  const formatCurrency = (amount: string | number) => {
+    const numAmount = typeof amount === "string" ? parseFloat(amount) : amount;
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
-    }).format(amount);
+    }).format(numAmount);
   };
 
   return (
@@ -86,14 +86,22 @@ export default function ChequesPage() {
               Manage and track all your cheques in one place
             </p>
           </div>
-          <Button
-            onClick={() => setIsCreateDialogOpen(true)}
-            className="gap-2"
-            data-testid="button-create-cheque"
-          >
-            <Plus className="h-4 w-4" />
-            New Cheque
-          </Button>
+          <div className="flex items-center gap-3">
+            <Link href="/chat">
+              <Button variant="outline" className="gap-2" data-testid="button-open-chat">
+                <MessageSquare className="h-4 w-4" />
+                AI Assistant
+              </Button>
+            </Link>
+            <Button
+              onClick={() => setIsCreateDialogOpen(true)}
+              className="gap-2"
+              data-testid="button-create-cheque"
+            >
+              <Plus className="h-4 w-4" />
+              New Cheque
+            </Button>
+          </div>
         </div>
 
         <Card className="p-6 mb-6">
@@ -280,19 +288,6 @@ export default function ChequesPage() {
         open={isCreateDialogOpen}
         onOpenChange={setIsCreateDialogOpen}
       />
-
-      {!isChatbotOpen && (
-        <Button
-          onClick={() => setIsChatbotOpen(true)}
-          className="fixed bottom-4 right-4 rounded-full h-14 w-14 shadow-lg"
-          size="icon"
-          data-testid="button-open-chat"
-        >
-          <MessageSquare className="h-6 w-6" />
-        </Button>
-      )}
-
-      {isChatbotOpen && <Chatbot onClose={() => setIsChatbotOpen(false)} />}
     </div>
   );
 }
