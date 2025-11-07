@@ -35,9 +35,14 @@ export async function sendChequeAlert(cheque: Cheque): Promise<boolean> {
   try {
     const message = formatChequeMessage(cheque);
     
+    // Ensure recipient number has whatsapp: prefix
+    const formattedRecipient = recipientNumber.startsWith("whatsapp:") 
+      ? recipientNumber 
+      : `whatsapp:${recipientNumber}`;
+    
     const result = await twilioClient.messages.create({
       from: whatsappNumber,
-      to: `whatsapp:${recipientNumber}`,
+      to: formattedRecipient,
       body: message,
     });
 
