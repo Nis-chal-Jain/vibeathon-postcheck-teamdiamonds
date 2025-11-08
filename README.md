@@ -45,7 +45,7 @@ PostCheck is a **SaaS platform** built to manage the entire _post issue life cyc
 ![Screen recording](https://github.com/Nis-chal-Jain/vibeathon-postcheck-teamdiamonds/blob/main/screen.gif?raw=true)
 
 ### WhatsApp alerts:
-![Screen recording](https://github.com/Nis-chal-Jain/vibeathon-postcheck-teamdiamonds/blob/main/WhatsApp.jpeg?raw=true)
+![Screen recording](https://github.com/Nis-chal-Jain/vibeathon-postcheck-teamdiamonds/blob/main/whatsapp.jpeg?raw=true)
 
 ### On demand AI report Generation:
 ![Screen recording](https://github.com/Nis-chal-Jain/vibeathon-postcheck-teamdiamonds/blob/main/ai_reports.gif?raw=true)
