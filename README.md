@@ -42,7 +42,7 @@ PostCheck is a **SaaS platform** built to manage the entire _post issue life cyc
 | **3) AI Powered Report Generation**          | Get on demand CS-style analysis like: “Your average cheque clearance time is 4.2 days” or “₹6,80,000 worth cheques are due next 7 days” in your desired language like(mere kitane cheques clear honge 11th november ko). |
 
 ### SaaS demo video (adding cheques):
-![Screen recording](https://github.com/Nis-chal-Jain/vibeathon-postcheck-teamdiamonds/blob/main/ScreenRecording2025-11-08172308-ezgif.com-video-to-gif-converter.gif?raw=true)
+![Screen recording](https://github.com/Nis-chal-Jain/vibeathon-postcheck-teamdiamonds/blob/main/screen.gif?raw=true)
 
 ### WhatsApp alerts:
 ![Screen recording](https://github.com/Nis-chal-Jain/vibeathon-postcheck-teamdiamonds/blob/main/WhatsApp%20Image%202025-11-08%20at%205.21.49%20PM.jpeg?raw=true)
