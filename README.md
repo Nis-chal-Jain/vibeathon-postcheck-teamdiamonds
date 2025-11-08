@@ -22,11 +22,11 @@ Yet — they still manage cheque reminders via:
 - memory
 
 
-however this gets complicated and hard to manage and are prone to errors. 
+However this gets complicated and hard to manage and are prone to errors. 
 
-hence many businesses tend towards industrial accounting software such as zoho workbooks , tally etc which introduces the problem of being too complex
+Hence many businesses tend towards industrial accounting software such as zoho workbooks , tally etc which introduces the problem of being too complex and require trained professionals.
 
-Also comunication gap between the proprietor and accountant exist which can lead to default cheques
+Also comunication gap between the proprietor and accountant exist which can lead to default cheques.
 
 
 ## Our Solution — PostCheck
@@ -45,12 +45,12 @@ PostCheck is a **SaaS platform** built to manage the entire _post issue life cyc
 ![Screen recording](https://github.com/Nis-chal-Jain/vibeathon-postcheck-teamdiamonds/blob/main/screen.gif?raw=true)
 
 ### WhatsApp alerts:
-![Screen recording](https://github.com/Nis-chal-Jain/vibeathon-postcheck-teamdiamonds/blob/main/WhatsApp%20Image%202025-11-08%20at%205.21.49%20PM.jpeg?raw=true)
+![Screen recording](https://github.com/Nis-chal-Jain/vibeathon-postcheck-teamdiamonds/blob/main/WhatsApp.jpeg?raw=true)
 
 ### On demand AI report Generation:
 ![Screen recording](https://github.com/Nis-chal-Jain/vibeathon-postcheck-teamdiamonds/blob/main/ai_reports.gif?raw=true)
 
-## Future prospectus (after hackathon plans!!)
+## Future prospectus (post hackathon plans!!)
 
 - **1)WhatsApp based report generation**: Business owners and users can directly generate on demand AI generated reports on our whatsapp bot directly on their phones.
 
