@@ -52,11 +52,13 @@ PostCheck is a **SaaS platform** built to manage the entire _post issue life cyc
 
 ## Future prospectus (post hackathon plans!!)
 
-- **1)WhatsApp based report generation**: Business owners and users can directly generate on demand AI generated reports on our whatsapp bot directly on their phones.
+1. **WhatsApp based report generation**: Business owners and users can directly generate on demand AI generated reports on our whatsapp bot directly on their phones.
 
-- **2)Scan to add new Cheques**: Instead of manually adding new cheques users can just scan the cheques and using image recognition and ocr extract the data(due date, payee name, amount, etc,) and add the cheque with minimal human effort.
+1. **Scan to add new Cheques**: Instead of manually adding new cheques users can just scan the cheques and using image recognition and ocr extract the data(due date, payee name, amount, etc,) and add the cheque with minimal human effort.
 
 ## Business Potential (Scalability)
+
+- Potential global product: As **USA and Canada** being in the highest number of cheque issuer.
 
 - India alone has **>120 million SMBs** and majority still depend on cheques
     
